@@ -13,7 +13,6 @@
 }
 
 .rightSectionInner {
-  background-color: aqua;
   height: 100%;
   width: 990px;
   display: flex;
@@ -28,7 +27,6 @@
 }
 
 .leftSection {
-  background-color: orange;
   width: 275px;
   height: 100dvh;
 }
@@ -39,7 +37,6 @@
 
 .leftSectionFixed {
   position: fixed;
-  background-color: red;
   width: 275px;
   height: 100dvh;
   display: flex;
@@ -47,11 +44,9 @@
 }
 
 .main {
-  background-color: blueviolet;
   width: 600px;
 }
 .rightSection {
-  background-color: blue;
   width: 350px;
   height: 100%;
 }
@@ -118,4 +113,16 @@
 
 .postButton:hover {
   background-color: rgb(26, 140, 216);
+}
+
+.followRecommend {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgb(247, 249, 249);
+  border-radius: 16px;
+  margin: 12px 0;
+  padding: 12px 16px;
+}
+.followRecommend h3 {
+  padding-bottom: 12px;
 }
