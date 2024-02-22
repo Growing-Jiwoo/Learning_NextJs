@@ -35,6 +35,7 @@
   font-size: 20px;
   line-height: 24px;
   outline: none;
+  background-color: white;
 }
 .postForm textarea::placeholder {
   font-family: "Malgun Gothic", sans-serif;
