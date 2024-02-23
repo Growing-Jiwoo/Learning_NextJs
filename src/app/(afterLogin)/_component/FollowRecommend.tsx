@@ -1,8 +1,10 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import style from "./followRecommend.module.css";
 
 export default function FollowRecommend() {
+  const { data: session } = useSession();
   const onFollow = () => {};
 
   const user = {
@@ -22,9 +24,11 @@ export default function FollowRecommend() {
         <div className={style.title}>{user.nickname}</div>
         <div className={style.count}>@{user.id}</div>
       </div>
-      <div className={style.followButtonSection}>
-        <button onClick={onFollow}>팔로우</button>
-      </div>
+      {session?.user && (
+        <div className={style.followButtonSection}>
+          <button onClick={onFollow}>팔로우</button>
+        </div>
+      )}
     </div>
   );
 }

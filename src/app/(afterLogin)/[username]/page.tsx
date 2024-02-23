@@ -1,7 +1,9 @@
 import style from "./profile.module.css";
 import Post from "@/app/(afterLogin)/_component/Post";
 import BackButton from "../_component/BackButton";
-export default function Profile() {
+import { auth } from "@/auth";
+export default async function Profile() {
+  const session = await auth();
   const user = {
     id: "zerohch0",
     nickname: "제로초",
@@ -22,7 +24,9 @@ export default function Profile() {
           <div>{user.nickname}</div>
           <div>@{user.id}</div>
         </div>
-        <button className={style.followButton}>팔로우</button>
+        {session?.user && (
+          <button className={style.followButton}>팔로우</button>
+        )}
       </div>
       <div>
         <Post />

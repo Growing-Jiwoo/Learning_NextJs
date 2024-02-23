@@ -1,5 +1,7 @@
 "use server";
 
+// 서버 컴포넌트면 @/auth, 클라이언트 컴포넌트면 next-auth/react
+import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 
 export const onSubmit: any = async (
@@ -35,6 +37,12 @@ export const onSubmit: any = async (
     }
     console.log(await response.json());
     shouldRedirect = true;
+
+    await signIn("credentials", {
+      username: formData.get("id"),
+      password: formData.get("password"),
+      redirect: false,
+    });
   } catch (error) {
     console.error(error);
     return;
