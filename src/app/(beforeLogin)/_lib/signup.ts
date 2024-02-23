@@ -1,54 +1,45 @@
 "use server";
 
-// 서버 컴포넌트면 @/auth, 클라이언트 컴포넌트면 next-auth/react
-import { signIn } from "@/auth";
-import { redirect } from "next/navigation";
+import {redirect} from "next/navigation";
+import {signIn} from "@/auth";
 
-export const onSubmit: any = async (
-  prevState: { message: string | null },
-  formData: FormData
-) => {
-  if (!formData.get("id")) {
-    return { message: "no_id" };
+export default async (prevState: any, formData: FormData) => {
+  if (!formData.get('id') || !(formData.get('id') as string)?.trim()) {
+    return { message: 'no_id' };
   }
-  if (!formData.get("name")) {
-    return { message: "no_name" };
+  if (!formData.get('name') || !(formData.get('name') as string)?.trim()) {
+    return { message: 'no_name' };
   }
-  if (!formData.get("password")) {
-    return { message: "no_password" };
+  if (!formData.get('password') || !(formData.get('password') as string)?.trim()) {
+    return { message: 'no_password' };
   }
-  if (!formData.get("image")) {
-    return { message: "no_image" };
+  if (!formData.get('image')) {
+    return { message: 'no_image' };
   }
-
   let shouldRedirect = false;
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`,
-      {
-        method: "post",
-        body: formData,
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+      method: 'post',
+      body: formData,
+      credentials: 'include',
+    })
     console.log(response.status);
     if (response.status === 403) {
-      return { message: "user-exists" };
+      return { message: 'user_exists' };
     }
-    console.log(await response.json());
+    console.log(await response.json())
     shouldRedirect = true;
-
     await signIn("credentials", {
-      username: formData.get("id"),
-      password: formData.get("password"),
+      username: formData.get('id'),
+      password: formData.get('password'),
       redirect: false,
-    });
-  } catch (error) {
-    console.error(error);
+    })
+  } catch (err) {
+    console.error(err);
     return;
   }
 
-  if (shouldRedirect === true) {
-    redirect("/home");
+  if (shouldRedirect) {
+    redirect('/home'); // try/catch문 안에서 X
   }
-};
+}

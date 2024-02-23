@@ -1,8 +1,8 @@
-import Post from "../_component/Post";
-import style from "./page.module.css";
-import PostForm from "./_component/PostForm";
-import Tab from "./_component/Tab";
-import TabProvider from "./_component/TabProvider";
+import style from "./home.module.css";
+import Tab from "@/app/(afterLogin)/home/_component/Tab";
+import TabProvider from "@/app/(afterLogin)/home/_component/TabProvider";
+import PostForm from "@/app/(afterLogin)/home/_component/PostForm";
+import PostRecommends from "./_component/PostRecommends";
 
 export default function Home() {
   return (
@@ -10,24 +10,7 @@ export default function Home() {
       <TabProvider>
         <Tab />
         <PostForm />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        <PostRecommends />
       </TabProvider>
     </main>
   );

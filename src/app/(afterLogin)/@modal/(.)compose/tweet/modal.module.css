@@ -81,7 +81,6 @@
   border: none;
   outline: none;
   font-size: 20px;
-  background-color: white;
 }
 .input::placeholder {
   font-family: "Malgun Gothic", sans-serif;
@@ -132,7 +131,7 @@
   border: none;
   margin: 8px 0;
   background-color: rgb(29, 155, 240);
-  color: white;
+  color: white !important;
   font-size: 17px;
 }
 .actionButton:disabled {
