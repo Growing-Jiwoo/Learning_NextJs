@@ -1,6 +1,10 @@
 "use client";
 
-import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useSuspenseInfiniteQuery,
+} from "@tanstack/react-query";
 import Post from "@/app/(afterLogin)/_component/Post";
 import { Post as IPost } from "@/model/Post";
 import { getFollowingPosts } from "../_lib/getFolllwingPosts";
@@ -8,8 +12,8 @@ import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 export default function FollowingPosts() {
-  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
+    useSuspenseInfiniteQuery<
       IPost[],
       Object,
       InfiniteData<IPost[]>,
@@ -31,6 +35,7 @@ export default function FollowingPosts() {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, fetchNextPage, isFetching, hasNextPage]);
+
   return (
     <>
       {data?.pages.map((page, idx) => (

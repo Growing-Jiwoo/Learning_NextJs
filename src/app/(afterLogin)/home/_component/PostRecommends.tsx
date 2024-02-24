@@ -1,6 +1,6 @@
 "use client";
 
-import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
+import { InfiniteData, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import Post from "@/app/(afterLogin)/_component/Post";
 import { Post as IPost } from "@/model/Post";
 import { Fragment, useEffect } from "react";
@@ -8,21 +8,28 @@ import { useInView } from "react-intersection-observer";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 
 export default function PostRecommends() {
-  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useInfiniteQuery<
-      IPost[],
-      Object,
-      InfiniteData<IPost[]>, // useInfiniteQuery 사용 시 세 번째 인자값은 InfiniteData 타입을 사용해야함
-      [_1: string, _2: string],
-      number // initialPageParam 타입
-    >({
-      queryKey: ["posts", "recommends"],
-      initialPageParam: 0,
-      queryFn: getPostRecommends,
-      getNextPageParam: (lastPage) => lastPage.at(-1)?.postId, // 받아오는 페이지를 마지막부터 5개씩
-      staleTime: 60 * 1000,
-      gcTime: 300 * 1000,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isPending,
+    isLoading,
+    isError,
+  } = useSuspenseInfiniteQuery<
+    IPost[],
+    Object,
+    InfiniteData<IPost[]>, // useInfiniteQuery 사용 시 세 번째 인자값은 InfiniteData 타입을 사용해야함
+    [_1: string, _2: string],
+    number // initialPageParam 타입
+  >({
+    queryKey: ["posts", "recommends"],
+    initialPageParam: 0,
+    queryFn: getPostRecommends,
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.postId, // 받아오는 페이지를 마지막부터 5개씩
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  });
 
   // threshold = ref를 설정한 ui가 몇픽셀까지 보여지면 이벤트를 호출할건지
   // delay = ref를 설정한 ui가 몇픽셀까지 보여지고 몇초 뒤에 이벤트를 호출할건지
@@ -42,6 +49,7 @@ export default function PostRecommends() {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, fetchNextPage, isFetching, hasNextPage]);
+
   return (
     <>
       {/* useInfiniteQuery는 2차원 배열로 페이지가 생성됨
