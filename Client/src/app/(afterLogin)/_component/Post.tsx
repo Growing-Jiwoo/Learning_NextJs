@@ -27,6 +27,7 @@ export default function Post({ noImage, post }: Props) {
     e.stopPropagation();
   };
 
+  console.log(target);
   return (
     <PostArticle post={target}>
       {post.Original && (
