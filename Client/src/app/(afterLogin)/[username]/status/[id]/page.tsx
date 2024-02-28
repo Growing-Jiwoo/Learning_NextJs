@@ -11,10 +11,28 @@ import { getSinglePost } from "@/app/(afterLogin)/[username]/status/[id]/_lib/ge
 import { getComments } from "@/app/(afterLogin)/[username]/status/[id]/_lib/getComments";
 import React from "react";
 import Comments from "./_component/Comments";
+import { getUserServer } from "../../_lib/getUserServer";
+import { User } from "@/model/User";
+import { getSinglePostServer } from "./_lib/getSinglePostsServer";
+import { Post } from "@/model/Post";
 
 type Props = {
-  params: { id: string };
+  params: { id: string; username: string };
 };
+
+export async function generateMetadata({ params }: Props) {
+  const user: User = await getUserServer({
+    queryKey: ["users", params.username],
+  });
+  const post: Post = await getSinglePostServer({
+    queryKey: ["posts", params.id],
+  });
+  return {
+    title: `Z에서 ${user.nickname} 님 : ${post.content}`,
+    description: post.content,
+  };
+}
+
 export default async function Page({ params }: Props) {
   const { id } = params;
   const queryClient = new QueryClient();

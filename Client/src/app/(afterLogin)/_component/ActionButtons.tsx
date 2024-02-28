@@ -415,14 +415,17 @@ export default function ActionButtons({ white, post }: Props) {
 
     // modalStore.setMode("comment");
     // modalStore.setData(post);
-    router.push("/compose/tweet");
-    // const formData = new FormData();
-    // formData.append('content', '답글 테스트');
-    // fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`, {
-    //   method: 'post',
-    //   credentials: 'include',
-    //   body: formData
-    // });
+    // router.push("/compose/tweet");
+    const formData = new FormData();
+    formData.append("content", "답글 테스트");
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`,
+      {
+        method: "post",
+        credentials: "include",
+        body: formData,
+      }
+    );
   };
   const onClickRepost: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();

@@ -14,6 +14,17 @@ import { getUserServer } from "./_lib/getUserServer";
 type Props = {
   params: { username: string };
 };
+
+export async function generateMetadata({ params }: Props) {
+  const user: User = await getUserServer({
+    queryKey: ["users", params.username],
+  });
+  return {
+    title: `${user.nickname} (${user.id}) / Z`,
+    description: `${user.nickname} (${user.id}) 프로필`,
+  };
+}
+
 export default async function Profile({ params }: Props) {
   const { username } = params;
   const session = await auth();
